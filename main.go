@@ -1,15 +1,25 @@
 package main
 
 import (
-	"net/http"
-	"simple-web-boilerplate/routes/users"
-
+	"flag"
+	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/samueldaviddelacruz/simple-go-web-boilerplate/Persistence"
+	"github.com/samueldaviddelacruz/simple-go-web-boilerplate/routes/users"
+	"log"
+	"net/http"
 )
 
 func main() {
+	portFlag := flag.Int("port", 5000, "the port to which the server will listen to")
 	router := mux.NewRouter().StrictSlash(false)
-	users.RegisterRoutes(router.PathPrefix("/users").Subrouter())
+	usersDB := &Persistence.InMemoryUsersDB{}
 
-	http.ListenAndServe(":5000", router)
+	usersRoute := users.New(usersDB)
+	usersSubRouter := router.PathPrefix("/users/").Subrouter()
+	usersRoute.RegisterRoutes(usersSubRouter)
+
+	address := fmt.Sprintf(":%d", *portFlag) //":5000
+	fmt.Printf("Listening on port %d\n", *portFlag)
+	log.Fatal(http.ListenAndServe(address, router))
 }

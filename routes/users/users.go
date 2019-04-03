@@ -3,34 +3,25 @@ package users
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/samueldaviddelacruz/simple-go-web-boilerplate/entities"
 	"net/http"
 )
 
-type User struct {
-	Firstname string `json:"firstname"`
-	Lastname  string `json:"lastname"`
-	Age       int    `json:"age"`
+type userRoute struct {
+	userRepo entities.UserRepository
 }
 
-func AllUsers(w http.ResponseWriter, r *http.Request) {
-	//vars := mux.Vars(r)
-	users := []User{
-		{
-			Firstname: "Samuel",
-			Lastname:  "De la cruz",
-			Age:       27,
-		},
-		{
-			Firstname: "Oscar",
-			Lastname:  "Martinez",
-			Age:       26,
-		},
-	}
+func (userRoute *userRoute) allUsers(w http.ResponseWriter, r *http.Request) {
+	users := userRoute.userRepo.GetAllUsers()
 
 	json.NewEncoder(w).Encode(users)
 }
-func RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("", AllUsers)
-	router.HandleFunc("/", AllUsers)
-	//router.HandleFunc("/{title}", GetBook)
+
+func New(userRepo entities.UserRepository) userRoute {
+	return userRoute{userRepo}
+}
+
+func (userRoute *userRoute) RegisterRoutes(router *mux.Router) {
+	router.HandleFunc("", userRoute.allUsers)
+	router.HandleFunc("/", userRoute.allUsers)
 }
