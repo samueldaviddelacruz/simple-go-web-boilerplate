@@ -16,7 +16,7 @@ func main() {
 	usersDB := &Persistence.InMemoryUsersDB{}
 
 	usersRoute := users.New(usersDB)
-	usersSubRouter := router.PathPrefix("/users/").Subrouter()
+	usersSubRouter := router.PathPrefix("/users").Subrouter()
 	usersRoute.RegisterRoutes(usersSubRouter)
 
 	address := fmt.Sprintf(":%d", *portFlag) //":5000
