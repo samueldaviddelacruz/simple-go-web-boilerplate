@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"simple-go-web-boilerplate/controllers"
 	"simple-go-web-boilerplate/models"
 	"simple-go-web-boilerplate/persistence"
 	"strconv"
@@ -29,11 +30,9 @@ func main() {
 	// processing should be stopped.
 	r.Use(middleware.Timeout(60 * time.Second))
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		hello([]string{
-			"Samuel",
-		}).Render(r.Context(), w)
-	})
+	helloController := controllers.NewHelloController()
+
+	r.Get("/", helloController.Index)
 	r.Route("/users", func(r chi.Router) {
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			userRepo := persistence.NewInMemoryUserRepository()
@@ -68,6 +67,10 @@ func main() {
 		})
 	})
 	http.ListenAndServe(":5000", r)
+}
+
+func NewHelloController() {
+	panic("unimplemented")
 }
 func UserContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
