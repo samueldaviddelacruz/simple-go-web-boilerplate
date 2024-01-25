@@ -18,6 +18,7 @@ type contextKey string
 const userKey contextKey = "user"
 
 func main() {
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Use(middleware.RequestID)
@@ -29,7 +30,9 @@ func main() {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
+		hello([]string{
+			"Samuel",
+		}).Render(r.Context(), w)
 	})
 	r.Route("/users", func(r chi.Router) {
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +67,7 @@ func main() {
 			})
 		})
 	})
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":5000", r)
 }
 func UserContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
