@@ -1,4 +1,4 @@
-module samuel-gbh-assignment
+module simple-go-web-boilerplate
 
 go 1.21.6
 
