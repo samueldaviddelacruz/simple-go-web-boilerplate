@@ -1,8 +1,8 @@
 package tests_mocks
 
 import (
-	application_errors "samuel-gbh-assignment/errors"
-	"samuel-gbh-assignment/models"
+	application_errors "simple-go-web-boilerplate/errors"
+	"simple-go-web-boilerplate/models"
 )
 
 type BooksRepositoryMock struct{}

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	controllers "samuel-gbh-assignment/controllers/books"
-	"samuel-gbh-assignment/repositories"
-	"samuel-gbh-assignment/services"
+	controllers "simple-go-web-boilerplate/controllers/books"
+	"simple-go-web-boilerplate/repositories"
+	"simple-go-web-boilerplate/services"
 	"time"
 
 	"github.com/go-chi/chi/v5"

@@ -3,8 +3,8 @@ package repositories
 import (
 	"database/sql"
 	"errors"
-	application_errors "samuel-gbh-assignment/errors"
-	"samuel-gbh-assignment/models"
+	application_errors "simple-go-web-boilerplate/errors"
+	"simple-go-web-boilerplate/models"
 
 	"github.com/jmoiron/sqlx"
 )

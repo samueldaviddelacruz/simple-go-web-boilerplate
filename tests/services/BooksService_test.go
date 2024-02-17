@@ -1,9 +1,9 @@
 package services_test
 
 import (
-	application_errors "samuel-gbh-assignment/errors"
-	"samuel-gbh-assignment/services"
-	tests_mocks "samuel-gbh-assignment/tests"
+	application_errors "simple-go-web-boilerplate/errors"
+	"simple-go-web-boilerplate/services"
+	tests_mocks "simple-go-web-boilerplate/tests"
 	"testing"
 )
 

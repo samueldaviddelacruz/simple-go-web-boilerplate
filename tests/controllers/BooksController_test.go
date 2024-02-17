@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
-	controllers "samuel-gbh-assignment/controllers/books"
-	tests_mocks "samuel-gbh-assignment/tests"
+	controllers "simple-go-web-boilerplate/controllers/books"
+	tests_mocks "simple-go-web-boilerplate/tests"
 	"testing"
 
 	"github.com/go-chi/chi/v5"
