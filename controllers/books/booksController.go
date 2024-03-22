@@ -33,17 +33,17 @@ func (h booksController) List(w http.ResponseWriter, r *http.Request) {
 	books, err := h.booksService.List()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"error": "Error getting the books"}`))
+		fmt.Fprint(w, `{"error": "Error getting the books"}`)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
 	booksJson, err := json.Marshal(books)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"error": "Error parsing the books"}`))
+		fmt.Fprint(w, `{"error": "Error parsing the books"}`)
 		return
 	}
-	w.Write(booksJson)
+	fmt.Fprint(w, string(booksJson))
 }
 func (h booksController) FindByID(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
@@ -52,7 +52,7 @@ func (h booksController) FindByID(w http.ResponseWriter, r *http.Request) {
 	bookID, err := strconv.Atoi(id)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"error": "Error parsing the id"}`))
+		fmt.Fprint(w, `{"error": "Error parsing the id"}`)
 	}
 
 	book, err := h.booksService.FindByID(bookID)
@@ -63,17 +63,17 @@ func (h booksController) FindByID(w http.ResponseWriter, r *http.Request) {
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
-		w.Write([]byte(err.Error()))
+		fmt.Fprint(w, err.Error())
 		return
 	}
 	w.WriteHeader(http.StatusOK)
 	bookJson, err := json.Marshal(book)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"error": "Error parsing the book"}`))
+		fmt.Fprint(w, `{"error": "Error parsing the book"}`)
 		return
 	}
-	w.Write(bookJson)
+	fmt.Fprint(w, bookJson) //w.Write(bookJson)
 }
 func (h booksController) GetPage(w http.ResponseWriter, r *http.Request) {
 	bookID := chi.URLParam(r, "bookid")
@@ -82,12 +82,12 @@ func (h booksController) GetPage(w http.ResponseWriter, r *http.Request) {
 	bookIDInt, err := strconv.Atoi(bookID)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"error": "Error parsing the bookid"}`))
+		fmt.Fprint(w, `{"error": "Error parsing the bookid"}`)
 	}
 	pageInt, err := strconv.Atoi(page)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"error": "Error parsing the page"}`))
+		fmt.Fprint(w, `{"error": "Error parsing the page"}`)
 	}
 
 	pageContent, err := h.booksService.GetPage(bookIDInt, pageInt, contentFormat)
@@ -101,13 +101,13 @@ func (h booksController) GetPage(w http.ResponseWriter, r *http.Request) {
 		default:
 			w.WriteHeader(http.StatusInternalServerError)
 		}
-		w.Write([]byte(err.Error()))
+		fmt.Fprint(w, err.Error())
 		return
 	}
 	w.Header().Set("Content-Type", ContentTypeMapping[strings.ToLower(contentFormat)])
 	w.WriteHeader(http.StatusOK)
 
-	w.Write([]byte(pageContent))
+	fmt.Fprint(w, pageContent)
 }
 func NewBooksController(booksService BooksService) booksController {
 	return booksController{
